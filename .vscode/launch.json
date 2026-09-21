@@ -2,10 +2,15 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "./node_modules/.bin/astro dev",
-      "name": "Development server",
+      "name": "Astro: 本地开发",
       "request": "launch",
-      "type": "node-terminal"
+      "type": "node",
+      "program": "${workspaceFolder}/node_modules/astro/bin/astro.mjs",
+      "args": ["dev", "--open"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "preLaunchTask": "Astro: 安装依赖"
     }
   ]
 }

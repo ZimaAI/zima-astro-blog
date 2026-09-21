@@ -1,0 +1,41 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Astro: 安装依赖",
+      "type": "shell",
+      "command": "npx",
+      "args": ["--yes", "bun@1.3.11", "install", "--frozen-lockfile"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Astro: 开发服务器",
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "dependsOn": "Astro: 安装依赖",
+      "problemMatcher": []
+    },
+    {
+      "label": "Astro: 检查",
+      "type": "npm",
+      "script": "check",
+      "dependsOn": "Astro: 安装依赖",
+      "problemMatcher": []
+    },
+    {
+      "label": "Astro: 构建",
+      "type": "npm",
+      "script": "build",
+      "dependsOn": "Astro: 安装依赖",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

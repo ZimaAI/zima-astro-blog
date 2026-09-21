@@ -6,9 +6,9 @@
 
 - `origin`：https://github.com/ZimaAI/zima-astro-blog.git（自己的仓库，提交推送到这里）。
 - `upstream`：https://github.com/cworld1/astro-theme-pure.git（主题更新来源）。
-- `main`：稳定版本。
-- `develop`：日常开发分支。
-- `feat/功能名`：从 `develop` 创建的独立功能分支。
+- `main`：唯一开发与发布分支，日常修改、主题同步和提交推送都直接在此分支完成。
+
+本项目为个人项目，采用单分支工作流。
 
 初始化机器的 `origin` 使用 HTTPS 拉取、SSH 推送，复用已有的 ZimaAI SSH 身份。如果在其他机器上也需要这种配置，可运行 `git remote set-url --push origin git@github.com:ZimaAI/zima-astro-blog.git`，并确保该机器已配置 GitHub SSH 登录。
 
@@ -17,7 +17,7 @@
 ```bash
 git clone https://github.com/ZimaAI/zima-astro-blog.git
 cd zima-astro-blog
-git switch develop
+git switch main
 git remote add upstream https://github.com/cworld1/astro-theme-pure.git
 ```
 
@@ -47,6 +47,18 @@ npm run build   # 主题环境检查、类型检查和生产构建
 ```
 
 `npm run lint` 和 `npm run format` 会修改文件，运行后检查差异再提交。
+
+### 在 VS Code 中启动
+
+1. 安装上述版本的 Node.js（包含 npm），然后在 VS Code 中打开项目根目录 `zima-astro-blog`。
+2. 按提示安装工作区推荐的 Astro 和 MDX 扩展。
+3. 在“运行和调试”中选择 `Astro: 本地开发`，按 `F5` 启动，或按 `Ctrl+F5` 启动而不调试。
+
+启动前会自动执行 `Astro: 安装依赖`，通过 `npx --yes bun@1.3.11 install --frozen-lockfile` 安装或检查依赖，无需全局安装 Bun。首次运行需要联网下载依赖。开发服务器启动后自动打开浏览器，默认地址为 http://localhost:4321；若端口被占用，以终端显示和浏览器打开的实际地址为准。修改源码后页面会自动更新，按 `Shift+F5` 停止调试启动的服务器。
+
+也可以通过“终端 → 运行任务”选择 `Astro: 开发服务器`、`Astro: 检查` 或 `Astro: 构建`；开发服务器任务可在终端中按 `Ctrl+C` 停止。`Ctrl+Shift+B` 执行默认构建任务。
+
+配置位于 `.vscode/launch.json` 和 `.vscode/tasks.json`，使用 VS Code [内置 Node.js 调试器](https://code.visualstudio.com/docs/nodejs/nodejs-debugging)。
 
 ## 从哪些文件开始改
 
@@ -89,34 +101,32 @@ draft: false
 ## 日常开发与发布
 
 ```bash
-git switch develop
-git pull --ff-only origin develop
-git switch -c feat/customize-home
+git switch main
+git pull --ff-only origin main
 # 修改文件并完成验证
 npm run build
 git add <本次修改的文件>
 git commit -m "feat: customize homepage"
-git push -u origin feat/customize-home
+git push origin main
 ```
 
-在 GitHub 创建 PR，将功能分支合入 `develop`。验证稳定后，再创建 `develop` → `main` 的 PR。小改动也可以直接提交并推送到 `develop`。
+日常修改在 `main` 上完成，验证后直接提交并推送到 `origin/main`。
 
 当前 `astro.config.ts` 配置了 Vercel adapter 和 `output: 'server'`。推送到 GitHub 仅上传代码，并不会自动发布网站；当前构建结果也不能直接当作通用静态站点上传。接入 Vercel 时可选择 `main` 为生产分支；若选择 GitHub Pages、其他静态托管或自建 Node 服务，需要先调整相应的输出模式与 adapter，再验证构建和预览方式。
 
 ## 同步原主题更新
 
-在工作区干净时，从开发分支建立专门的同步分支：
+在工作区干净时，直接在 `main` 上合并原主题更新：
 
 ```bash
-git switch develop
-git pull --ff-only origin develop
+git switch main
+git pull --ff-only origin main
 git fetch upstream
-git switch -c chore/sync-theme
 git merge upstream/main
 # 如有冲突，处理后 git add 对应文件，再 git commit
 npx --yes bun@1.3.11 install --frozen-lockfile
 npm run build
-git push -u origin chore/sync-theme
+git push origin main
 ```
 
-通过 PR 合入 `develop`。如果自己也修改过依赖且合并后锁文件不一致，需要先协调 `package.json`，再不带 `--frozen-lockfile` 安装以更新锁文件，并将其提交。主题模板更新与 npm `astro-pure` 版本更新是两件事，合并时都要检查。保留原许可证及必要的版权声明。
+如果自己也修改过依赖且合并后锁文件不一致，需要先协调 `package.json`，再不带 `--frozen-lockfile` 安装以更新锁文件，并将其提交。验证通过后推送到 `origin/main`。主题模板更新与 npm `astro-pure` 版本更新是两件事，合并时都要检查。保留原许可证及必要的版权声明。
