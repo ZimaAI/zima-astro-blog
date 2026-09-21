@@ -62,7 +62,15 @@ export const theme: ThemeUserConfig = {
     // Year format
     year: `© ${new Date().getFullYear()}`,
     // year: `© 2019 - ${new Date().getFullYear()}`,
-    links: [{ title: '站点说明', link: '/terms', pos: 2 }],
+    links: [
+      {
+        title: '浙ICP备2026076087号-1',
+        link: 'https://beian.miit.gov.cn/',
+        pos: 1,
+        style: 'text-sm'
+      },
+      { title: '站点说明', link: '/terms', pos: 2 }
+    ],
     /** Enable displaying a “Astro & Pure theme powered” link in your site’s footer. */
     credits: true,
     /** Optional details about the social media accounts for this site. */
