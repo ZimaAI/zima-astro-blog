@@ -5,27 +5,29 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 import { integ } from '@/site-config'
 
 const meta = {
-  description: 'Search relative posts of the whole blog',
-  title: 'Search'
+  description: '搜索奇码博客中的文章与学习笔记。',
+  title: '搜索'
 }
 ---
 
 <PageLayout {meta}>
-  <Button title='Back' href='/blog' variant='back' />
+  <Button title='返回文章' href='/blog' variant='back' />
   <main class='mt-6 lg:mt-10'>
     <div id='content-header' class='animate'>
-      <h1 class='mb-6 text-3xl font-medium'>Search</h1>
+      <h1 class='mb-6 text-3xl font-medium'>搜索</h1>
     </div>
 
     <div id='content' class='animate'>
       {
         integ.pagefind ? (
           <>
-            <p>Enter a search term or phrase to search the blog.</p>
+            <p>输入关键词，寻找感兴趣的文章。</p>
             <PFSearch />
           </>
         ) : (
-          <p>Pagefind is disabled.</p>
+          <p>
+            搜索暂未开启，可以先去<a href='/blog'>文章列表</a>看看。
+          </p>
         )
       }
     </div>

@@ -1,21 +1,25 @@
 ---
 import { Font } from 'astro:assets'
-
-import { prod } from 'astro-pure/server'
-import type { SiteMeta } from 'astro-pure/types'
 import config from 'virtual:config'
+
+import type { SiteMeta } from 'astro-pure/types'
 
 type Props = SiteMeta
 
 const { articleDate, description, ogImage, title } = Astro.props
 
-const siteTitle = `${title} ${config.titleDelimiter} ${config.title}`
+const siteTitle =
+  title === config.title ? title : `${title} ${config.titleDelimiter} ${config.title}`
+const pageDescription = description || config.description
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
-const socialImageURL = new URL(ogImage ? ogImage : config.socialCard, Astro.url).href
+const socialImageURL = new URL(ogImage ? ogImage : config.socialCard, Astro.site).href
 ---
 
 <meta charset='utf-8' />
-<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover' name='viewport' />
+<meta
+  content='width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover'
+  name='viewport'
+/>
 <meta content='IE=edge' http-equiv='X-UA-Compatible' />
 <title>{siteTitle}</title>
 
@@ -40,7 +44,7 @@ const socialImageURL = new URL(ogImage ? ogImage : config.socialCard, Astro.url)
 
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name='title' />
-<meta content={description} name='description' />
+<meta content={pageDescription} name='description' />
 <meta content={config.author} name='author' />
 
 {/* Theme Color */}
@@ -50,7 +54,7 @@ const socialImageURL = new URL(ogImage ? ogImage : config.socialCard, Astro.url)
 {/* Open Graph / Facebook */}
 <meta content={articleDate ? 'article' : 'website'} property='og:type' />
 <meta content={title} property='og:title' />
-<meta content={description} property='og:description' />
+<meta content={pageDescription} property='og:description' />
 <meta content={canonicalURL} property='og:url' />
 <meta content={config.title} property='og:site_name' />
 <meta content={config.locale.attrs} property='og:locale' />
@@ -70,7 +74,7 @@ const socialImageURL = new URL(ogImage ? ogImage : config.socialCard, Astro.url)
 <meta content='summary_large_image' property='twitter:card' />
 <meta content={canonicalURL} property='twitter:url' />
 <meta content={title} property='twitter:title' />
-<meta content={description} property='twitter:description' />
+<meta content={pageDescription} property='twitter:description' />
 <meta content={socialImageURL} property='twitter:image' />
 
 {/* Sitemap */}
@@ -85,14 +89,3 @@ const socialImageURL = new URL(ogImage ? ogImage : config.socialCard, Astro.url)
 />
 
 <meta content={Astro.generator} name='generator' />
-
-{
-  /* User script*/
-  prod && (
-    <script>
-      console.log( '%c Astro Theme Pure %c https://github.com/cworld1/astro-theme-pure/',
-      'color:#fff;background:linear-gradient(90deg,#448bff,#44e9ff);padding:5px 0;',
-      'color:#000;background:linear-gradient(90deg,#44e9ff,#ffffff);padding:5px 10px 5px 0px;' )
-    </script>
-  )
-}

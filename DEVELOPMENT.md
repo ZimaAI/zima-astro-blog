@@ -62,21 +62,26 @@ npm run build   # 主题环境检查、类型检查和生产构建
 
 ## 从哪些文件开始改
 
-| 需求 | 位置 |
-| --- | --- |
-| 标题、作者、语言、菜单、社交链接、评论 | `src/site.config.ts` |
-| 首页内容和结构 | `src/pages/index.astro`、`src/components/home/` |
-| 关于、项目、友链页面 | `src/pages/about/`、`src/pages/projects/`、`src/pages/links/` |
-| 公共布局、文章布局 | `src/layouts/` |
-| 页面组件、SEO 元信息 | `src/components/`、`src/components/BaseHead.astro` |
-| 全局样式 | `src/assets/styles/global.css`、`src/assets/styles/app.css` |
-| UnoCSS 配置 | `uno.config.ts` |
-| 博客、文档内容 | `src/content/blog/`、`src/content/docs/` |
-| 内容字段与校验规则 | `src/content.config.ts` |
-| 头像、图片、图标 | `src/assets/`、`public/` |
-| 域名、部署方式、Astro 集成 | `astro.config.ts` |
+| 需求                                          | 位置                                                        |
+| --------------------------------------------- | ----------------------------------------------------------- |
+| 个人资料、教育经历、技术栈、GitHub 和项目链接 | `src/data/profile.ts`                                       |
+| 站点描述、语言、菜单、评论等集成配置          | `src/site.config.ts`                                        |
+| 首页内容和结构                                | `src/pages/index.astro`、`src/components/home/`             |
+| 关于、项目页面                                | `src/pages/about/`、`src/pages/projects/`                   |
+| 公共布局、文章布局                            | `src/layouts/`                                              |
+| 页面组件、SEO 元信息                          | `src/components/`、`src/components/BaseHead.astro`          |
+| 全局样式                                      | `src/assets/styles/global.css`、`src/assets/styles/app.css` |
+| UnoCSS 配置                                   | `uno.config.ts`                                             |
+| 博客文章                                      | `src/content/blog/`                                         |
+| 原主题示例和文档（不发布）                    | `docs/theme-examples/`                                      |
+| 内容字段与校验规则                            | `src/content.config.ts`                                     |
+| 头像、图片、图标                              | `src/assets/`、`public/`                                    |
+| 博客域名                                      | `.env` 或部署环境中的 `SITE_URL`，参见 `.env.example`       |
+| 部署方式、Astro 集成                          | `astro.config.ts`                                           |
 
-建议先改站点信息、首页和样式，再逐步替换示例内容。上线前将 `astro.config.ts` 的 `site` 替换为真实访问域名；导航、友链申请信息、社交链接和示例备案信息也需要逐项调整。评论默认连接主题的演示 Waline 服务，应配置自己的服务，或将 `integ.waline.enable` 设为 `false`。
+站点已按 `docs/aboutme/aboutme.md` 改造成奇码的个人博客；后续修改共享资料时编辑 `src/data/profile.ts`。原主题的示例文章和文档已移至 `docs/theme-examples/`，不会发布为博客内容或 `/docs` 页面。
+
+上线前在部署环境中设置 `SITE_URL` 为博客的真实访问地址；本地可复制 `.env.example` 为 `.env` 后填写。`astro.config.ts` 从中读取站点地址，未配置时使用 `http://localhost:4321`。规范链接、RSS、站点地图和分享元信息依赖此设置。示例备案信息已移除，Waline 评论已关闭；如需评论，请配置自己的服务后再开启 `integ.waline.enable`。
 
 `astro-pure` 当前是 npm 依赖。虽然仓库包含 `packages/pure/`，直接修改该目录不会自动改变站点使用的依赖。普通定制优先在 `src/` 完成；若需要修改主题底层，可把根 `package.json` 中的 `astro-pure` 改为 `file:./packages/pure`，重新运行 `bun install`（或 `npx --yes bun@1.3.11 install`），同时提交依赖声明和锁文件，再验证构建。不要直接编辑 `node_modules/`。
 

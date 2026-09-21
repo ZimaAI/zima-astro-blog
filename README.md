@@ -1,151 +1,67 @@
-# Astro Theme Pure
+# Zima's Blog
 
 English | [简体中文](./README-zh-CN.md)
 
-A simple, fast and powerful blog & document theme built by Astro.
+奇码's personal blog, covering AI application development, Java backend development and software engineering. Built with Astro and [Astro Theme Pure](https://github.com/cworld1/astro-theme-pure).
 
-[![GitHub deployments](https://img.shields.io/github/deployments/cworld1/astro-theme-pure/production?style=flat&logo=vercel&label=vercel)](https://astro-pure.js.org/)
-[![NPM Version](https://img.shields.io/npm/v/astro-pure?logo=npm&style=flat)](https://www.npmjs.com/package/astro-pure)
-[![GitHub Release](https://img.shields.io/github/v/release/cworld1/astro-theme-pure?include_prereleases&style=flat&label=template)](https://github.com/cworld1/astro-theme-pure/releases)
-[![GitHub License](https://img.shields.io/github/license/cworld1/astro-theme-pure?style=flat)](https://github.com/cworld1/astro-theme-pure/blob/main/LICENSE)
-
-![image](./.github/assets/header.webp)
-![image](./.github/assets/body.webp)
-
-> [!NOTE]
-> Known issues: Header & customize options is still under development (template exposed still).
-
-## Introduction
-
-Checkout [Demo Site →](https://astro-pure.js.org/)
-
-### :fire: Features
-
-- [x] :rocket: Fast & high performance
-- [x] :star: Simple & clean design
-- [x] :iphone: Responsive design
-- [x] :mag: Full-site search built with [pagefind](https://pagefind.app/)
-- [x] :world_map: Sitemap & RSS feed
-- [x] :spider_web: SEO-friendly
-- [x] :book: TOC (table of contents)
-- [x] :framed_picture: Dynamic open graph generation for posts
-- [x] :framed_picture: Mediumzoom lightbox for images
-
-### :package: Components
-
-Theme includes a lot of components, which can not only be used in the theme, but also in other astro projects.
-
-> For other astro projects, UnoCSS is required. See [Package README](https://github.com/cworld1/astro-theme-pure/blob/main/packages/pure/README.md#use-with-common-astro-project) for more details.
-
-- Basic components: `Aside`, `Tabs`, `Timeline`, `Steps`, `Spoiler`...
-- Advanced components: `GithubCard`, `LinkPreview`, `Quote`, `QRCode`...
-
-### :white_check_mark: Lighthouse score
-
-[![lighthouse-score](./.github/assets/lighthouse-score.png)](https://pagespeed.web.dev/analysis/https-cworld-top/o229zrt5o4?form_factor=mobile&hl=en)
-
-## Documentation
-
-[Docs](https://astro-pure.js.org/docs) | [Showcase](https://github.com/cworld1/astro-theme-pure/issues/10)
-
-## Package
-
-See [astro-theme-pure](https://www.npmjs.com/package/astro-pure) on npm.
+The site includes a personal homepage, articles, archives, projects, an about page, search and RSS. Personal information comes from [docs/aboutme/aboutme.md](./docs/aboutme/aboutme.md); shared site data lives in [src/data/profile.ts](./src/data/profile.ts).
 
 ## Local development
 
-### Environment requirements
+Use a supported even-numbered Node.js version, 22.12 or later. Keep the existing Bun lockfile when installing dependencies.
 
-> [!WARNING]
-> Astro 6.0+ requires Node.js 22.12.0 or newer. Odd-numbered Node.js versions such as 23 are not supported by Astro.
+```sh
+bun install --frozen-lockfile
+bun run dev
+```
 
-You can choose one of the following methods for project development:
+Without a global Bun installation:
 
-- [Bun](https://bun.com/get)
-- [Node.js](https://nodejs.org/)
+```sh
+npx --yes bun@1.3.11 install --frozen-lockfile
+npm run dev
+```
 
+Open [localhost:4321](http://localhost:4321).
 
-For deployment methods using container like [Docker](https://docs.docker.com/get-started/get-docker) & [Docker Compose](https://docs.docker.com/compose/install), please refer the documention [Using Docker Compose](https://astro-pure.js.org/docs/setup/using-docker-compose).
+```sh
+npm run check
+npm run build
+```
 
-### Getting started
+## Customize and write
 
-1. Clone the repository and enter the directory:
-   ```shell
-   git clone https://github.com/cworld1/astro-theme-pure.git
-   cd astro-theme-pure
-   ```
+| Content                                                 | Location                                                           |
+| ------------------------------------------------------- | ------------------------------------------------------------------ |
+| Name, education, skills, GitHub and project link        | `src/data/profile.ts`                                              |
+| Site metadata, navigation and integrations              | `src/site.config.ts`                                               |
+| Homepage, about page and projects                       | `src/pages/index.astro`, `src/pages/about/`, `src/pages/projects/` |
+| Blog posts                                              | `src/content/blog/`                                                |
+| Original theme examples, kept out of the published site | `docs/theme-examples/`                                             |
+| Icons and social sharing image                          | `public/favicon/`, `public/images/social-card.svg`                 |
 
-   Edit `src/site.config.ts` to customize the site.
+Create a `.md` or `.mdx` file in `src/content/blog/` with this frontmatter:
 
-2. Install dependencies:
-   ```shell
-   bun install
-   ```
-   
-3. Start the development server:
-   ```shell
-   bun dev
-   # or
-   pnpm dev
-   # or
-   yarn run dev
-   # or
-   npm run dev
-   ```
-   
-   The development server runs at http://localhost:4321 by default.
+```markdown
+---
+title: 'My first post'
+description: 'A short introduction to this post'
+publishDate: 2026-09-21
+tags: ['Astro']
+draft: false
+---
 
-### Creating a new blog article
-
-After setting up either development environment, you can create a new blog article:
-
-```shell
-bun pure new
+Write your post here.
 ```
 
 ## Deployment
 
-### Manual deployment
+Copy `.env.example` to `.env` for local configuration, or set `SITE_URL` in the deployment environment to the blog's real public URL. This controls canonical URLs, RSS, the sitemap and social sharing metadata. Without it, the site uses `http://localhost:4321`.
 
-Build the production site into the `./dist` directory:
+The project currently uses the Vercel adapter with `output: 'server'`; its build output is not a generic static site bundle. Configure the appropriate adapter and output mode before choosing another host. Waline comments are disabled until a personal comment service is configured.
 
-```shell
-bun run build
-```
-   
-Once the build is complete, the generated static files will be located in the `./dist` directory. You can deploy this directory to any platform that supports static site hosting.
-   
-Preview the production build locally:
+See [DEVELOPMENT.md](./DEVELOPMENT.md) for VS Code setup, the existing Git workflow and theme updates.
 
-```shell
-bun preview
-```
+## Credits and license
 
-### Static hosting platforms
-
-You can deploy your blog to any static site hosting platform.
-
-- Refer to the official [Astro Deployment Guide](https://docs.astro.build/en/guides/deploy/) for specific deployment methods.
-- Depending on the deployment platform you choose, you may need to modify the `astro.config.ts` configuration file in the project.
-
-| Vercel | Netlify |
-| :---: | :---: |
-| [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcworld1%2Fastro-theme-pure) | [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/cworld1/astro-theme-pure) |
-
-## Contributions
-
-To spend more time coding and less time fiddling with whitespace, this project uses code conventions and styles to encourage consistency. Code with a consistent style is easier (and less error-prone!) to review, maintain, and understand.
-
-## Thanks
-
-- [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus)
-- [Astro Resume](https://github.com/srleom/astro-theme-resume)
-- [Starlight](https://github.com/withastro/starlight)
-
-Other third party references are on [Docs#Contributions](https://astro-pure.js.org/docs/advanced/about). Appreciate for all open source libraries.
-
-## License
-
-This project is licensed under the Apache 2.0 License.
-
-[![Star History Chart](https://star-history.dera.page/svg?repos=cworld1/astro-theme-pure&type=Date)](https://star-history.dera.page/#cworld1/astro-theme-pure&Date)
+Based on [Astro Theme Pure](https://github.com/cworld1/astro-theme-pure). The original theme attribution and [Apache-2.0 license](./LICENSE) are retained.

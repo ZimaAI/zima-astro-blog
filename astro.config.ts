@@ -4,6 +4,7 @@ import AstroPureIntegration from 'astro-pure'
 import { defineConfig, fontProviders, svgoOptimizer } from 'astro/config'
 import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
+import { loadEnv } from 'vite'
 
 // Local integrations
 import rehypeAutolinkHeadings from './src/plugins/rehype-auto-link-headings.ts'
@@ -22,10 +23,13 @@ import {
 } from './src/plugins/shiki-official/transformers.ts'
 import config from './src/site.config.ts'
 
+// Set SITE_URL to the blog's public address before deploying.
+const { SITE_URL } = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), 'SITE_')
+
 // https://astro.build/config
 export default defineConfig({
   // [Basic]
-  site: 'https://astro-pure.js.org',
+  site: SITE_URL || 'http://localhost:4321',
   // Deploy to a sub path
   // https://astro-pure.js.org/docs/setup/deployment#platform-with-base-path
   // base: '/astro-pure/',

@@ -1,13 +1,13 @@
 /* Theme */
 :root {
   /* Primary */
-  --primary: 200 29% 45%;
+  --primary: 165 43% 32%;
   /* Foreground */
-  --foreground: 240 10% 3.9%;
-  --muted-foreground: 240 3.8% 28.1%;
+  --foreground: 170 18% 15%;
+  --muted-foreground: 170 6% 42%;
   /* Background */
-  --background: 210 33% 99%;
-  --muted: 240 4.8% 96%;
+  --background: 60 14% 98%;
+  --muted: 150 10% 95%;
   --card: 0 0% 90%;
 
   /* Basic */
@@ -18,13 +18,13 @@
 }
 .dark {
   /* Primary */
-  --primary: 195 95% 85%;
+  --primary: 163 56% 74%;
   /* Foreground */
   --foreground: 0 0% 98%;
   --muted-foreground: 240 5% 74.9%;
   /* Background */
-  --background: 240 20.54% 5.2%;
-  --muted: 240 5.9% 13%;
+  --background: 170 15% 7%;
+  --muted: 170 9% 13%;
   --card: 240 3.7% 24.9%;
 
   /* Basic */
@@ -40,6 +40,12 @@ html.dark {
 }
 
 /* Global */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 4px;
+}
+
 a {
   transition: color 0.2s ease;
   &:hover {

@@ -1,197 +1,561 @@
 ---
 import { Image } from 'astro:assets'
+import { profile } from '@/data/profile'
 
-import { Quote } from 'astro-pure/advanced'
-import { PostPreview } from 'astro-pure/components/pages'
 import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
-import { Button, Card, Icon, Label } from 'astro-pure/user'
+import { FormattedDate, Icon } from 'astro-pure/user'
 import PageLayout from '@/layouts/BaseLayout.astro'
-import ProjectCard from '@/components/home/ProjectCard.astro'
-import Section from '@/components/home/Section.astro'
-import SkillLayout from '@/components/home/SkillLayout.astro'
-import config from '@/site-config'
+import avatar from '@/assets/avatar.png'
+import zhigenews from '@/assets/projects/zhigenews.png'
 
-const languages = ['Html', 'JavaScript', 'CSS', 'Shell']
-const frontend = ['TypeScript', 'Vite', 'Webpack', 'Astro']
-const backend = ['Vercel', 'Waline']
-
-const MAX_POSTS = 10
-const allPosts = await getBlogCollection()
-const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
-
-const imagePath = config.logo.src
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/*.{jpeg,jpg,png,gif,avif,webp}'
-)
-if (!images[imagePath])
-  throw new Error(
-    `"${imagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif,avif,webp}"`
-  )
+const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
 ---
 
-<PageLayout meta={{ title: 'Home' }} highlightColor='#659EB9'>
-  <main class='flex w-full flex-col items-center'>
-    <section class='animate mb-10 flex flex-col items-center gap-y-7' id='content-header'>
-      <Image
-        src={images[imagePath]()}
-        alt={config.logo.alt || 'Profile'}
-        class='h-28 w-auto rounded-full border p-1'
-        loading='eager'
-        fetchpriority='high'
-      />
-
-      <div class='flex flex-col items-center gap-y-4'>
-        <h1 class='text-3xl font-medium'>{config.author}</h1>
-        <div class='flex flex-wrap justify-center gap-x-7 gap-y-3'>
-          <Label title='Somewhere'>
-            <Icon name='location' class='size-5' slot='icon' />
-          </Label>
-          <Label
-            title='Source code'
-            as='a'
-            href='https://github.com/cworld1/astro-theme-pure'
-            target='_blank'
-          >
-            <Icon name='github' class='size-5' slot='icon' />
-          </Label>
+<PageLayout meta={{ title: profile.subtitle }}>
+  <main class='home'>
+    <section class='intro animate' id='content-header' aria-labelledby='intro-title'>
+      <div class='intro-copy'>
+        <p class='eyebrow'>HELLO, WORLD · {profile.subtitle}</p>
+        <h1 id='intro-title'>你好，我是<span>{profile.name}</span>。</h1>
+        <p class='intro-lead'>在代码中探索，在记录中成长。</p>
+        <p class='intro-description'>
+          江苏大学软件工程硕士在读，关注 AI 应用与 Java 后端开发。
+          <br class='desktop-break' />这里记录我的技术学习、项目实践与思考。
+        </p>
+        <div class='intro-links'>
+          <a class='primary-link' href='/blog'>阅读文章 <span aria-hidden='true'>↗</span></a>
+          <a class='text-link' href={profile.github} target='_blank' rel='noopener noreferrer'>
+            <Icon name='github' class='size-4' /> GitHub <span aria-hidden='true'>↗</span>
+          </a>
         </div>
       </div>
-
-      {/* Get template */}
-      <a
-        href='https://github.com/cworld1/astro-theme-pure'
-        target='_blank'
-        class='flex flex-row items-center gap-x-3 rounded-full border bg-background px-4 py-2 text-sm shadow-sm transition-shadow hover:shadow-md'
-      >
-        <span class='relative flex items-center justify-center'>
-          <span
-            class='absolute size-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75'
-          ></span>
-          <span class='size-2 rounded-full bg-green-400'></span>
-        </span>
-        <p class='font-medium text-muted-foreground'>Get Template</p>
-      </a>
+      <aside class='profile-note' aria-label='个人简介'>
+        <div class='note-top'>
+          <Image
+            src={avatar}
+            alt='奇码的头像'
+            width={72}
+            height={72}
+            widths={[72, 144]}
+            sizes='72px'
+            class='profile-avatar'
+            loading='eager'
+          />
+          <span class='note-label'>DEVELOPER<br />& LEARNER</span>
+        </div>
+        <p class='note-name'>{profile.handle}<span> / {profile.name}</span></p>
+        <p class='note-location'><Icon name='location' class='size-4' />{profile.location}</p>
+        <div class='note-status'><span aria-hidden='true'></span>{profile.status}</div>
+        <p class='note-direction'>{profile.directions.join(' · ')}</p>
+        <a class='text-link' href='/about'>更多关于我 <span aria-hidden='true'>↗</span></a>
+      </aside>
     </section>
 
-    <div id='content' class='animate flex flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
-      <Section title='About'>
-        <p class='text-muted-foreground'>Developer / Designer</p>
-        <p class='text-muted-foreground'>
-          Lorem ipsum dolor sit amet, vidit suscipit at mei. Quem denique mea id. Usu ei regione
-          indoctum dissentiunt, cu meliore fuisset mei, vel quod voluptua ne. Ex dicat impedit mel,
-          at eum oratio possit voluptatum.
-        </p>
-        <Button title='More about me' class='w-fit self-end' href='/about' variant='ahead' />
-      </Section>
-      {
-        allPostsByDate.length > 0 && (
-          <Section title='Posts'>
-            <ul class='flex flex-col gap-y-1.5 sm:gap-y-2'>
-              {allPostsByDate.map((p) => (
-                <li class='flex flex-col gap-x-2 sm:flex-row'>
-                  <PostPreview post={p} />
+    <div id='content' class='animate home-content'>
+      <section class='home-section' aria-labelledby='posts-title'>
+        <div class='section-heading'>
+          <div><p class='eyebrow'>WRITING</p><h2 id='posts-title'>最近的记录</h2></div>
+          <a class='text-link' href='/blog'>全部文章 <span aria-hidden='true'>↗</span></a>
+        </div>
+        {
+          posts.length > 0 ? (
+            <ul class='post-list'>
+              {posts.map((post) => (
+                <li>
+                  <a class='post-link' href={`/blog/${post.id}`}>
+                    <FormattedDate date={post.data.publishDate} class='post-date' />
+                    <div class='post-copy'>
+                      <h3>{post.data.title}</h3>
+                      <p>{post.data.description}</p>
+                    </div>
+                    <span class='post-arrow' aria-hidden='true'>
+                      ↗
+                    </span>
+                  </a>
                 </li>
               ))}
             </ul>
-            <Button title='More posts' class='w-fit self-end' href='/blog' variant='ahead' />
-          </Section>
-        )
-      }
+          ) : (
+            <p class='empty-state'>新的记录正在酝酿，欢迎之后再来看看。</p>
+          )
+        }
+      </section>
 
-      {
-        /* <Section title='Experience'>
-      <Card
-        heading='Lorem Ipsum'
-        subheading='Sit amet consectetur'
-        date='Dec 2022 - Nov 2023'
-        imagePath='/src/assets/about-astro.png'
-        altText='Lorem, ipsum dolor sit'
-        imageClass='h-12 w-auto md:-start-16'
-      >
-        <ul class='ms-4 list-disc text-muted-foreground'>
-          <li>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-            molestiae laboriosam pariatur!
-
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
-          </li>
-        </ul>
-      </Card>
-      <Card
-        heading='Lorem Ipsum'
-        subheading='Sit amet consectetur'
-        date='Dec 2022 - Nov 2023'
-        imagePath='/src/assets/about-astro.png'
-        altText='Lorem, ipsum dolor sit'
-        imageClass='h-12 w-auto md:-start-16'
-      />
-    </Section> */
-      }
-      <Section title='Education'>
-        <Card
-          as='a'
-          heading='Lorem ipsum'
-          subheading='Lorem ipsum dolor sit amet, vidit suscipit at mei.'
-          date='August 2021 - July 2025'
-          href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-        >
-          {
-            /* <ul class='ms-4 list-disc text-muted-foreground'>
-          <li>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-            molestiae laboriosam pariatur!
-          </li>
-          <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
-        </ul> */
-          }
-        </Card>
-      </Section>
-
-      <Section title='Website List'>
-        <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
-          <ProjectCard
-            href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-            heading='Lorem ipsum'
-            subheading='Do not go gentle into that good night'
-            imagePath='/src/assets/projects/1.avif'
-          />
-          <ProjectCard
-            href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-            heading='Lorem ipsum'
-            subheading='Old age burn and rave at close of day'
-            imagePath='/src/assets/projects/2.avif'
-          />
-          <ProjectCard
-            href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-            heading='Lorem ipsum'
-            subheading='Rage, rage against the dying of the light'
-            imagePath='/src/assets/projects/3.avif'
-          />
-          <ProjectCard
-            href='/projects'
-            heading='More projects'
-            subheading='Check out more projects'
-            imagePath='/src/assets/projects/4.avif'
-          />
+      <section class='home-section' aria-labelledby='projects-title'>
+        <div class='section-heading'>
+          <div><p class='eyebrow'>BUILDING</p><h2 id='projects-title'>我的网站</h2></div>
+          <a class='text-link' href='/projects'>查看项目 <span aria-hidden='true'>↗</span></a>
         </div>
-      </Section>
+        <a
+          class='website-card'
+          href={profile.website.url}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <div class='website-image'>
+            <Image
+              src={zhigenews}
+              alt='知更 · 个性化新闻简报'
+              widths={[480, 800, 1200]}
+              sizes='(max-width: 640px) 100vw, 540px'
+              loading='lazy'
+            />
+          </div>
+          <div class='website-copy'>
+            <span class='project-label'>ZHIGENEWS</span>
+            <h3>{profile.website.name}<span aria-hidden='true'>↗</span></h3>
+            <p>个性化新闻简报</p>
+            <span class='website-domain'>zhigenews.zimagent.top</span>
+          </div>
+        </a>
+      </section>
 
-      <Section title='Certifications'>
-        <Card
-          as='a'
-          heading='Lorem ipsum'
-          subheading='Lorem ipsum dolor sit amet, vidit suscipit at mei. Quem denique mea id. Usu ei regione indoctum dissentiunt, cu meliore fuisset mei, vel quod voluptua ne. Ex dicat impedit mel, at eum oratio possit voluptatum. Dicat ceteros cu vim. Impetus fuisset ullamcorper pri cu, his posse iisque ad, aliquam honestatis usu id.'
-          date='July 2024'
-          href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-        />
-      </Section>
-
-      <Section title='Skills'>
-        <SkillLayout title='Languages' skills={languages} />
-        <SkillLayout title='Frontend' skills={frontend} />
-        <SkillLayout title='Backend' skills={backend} />
-      </Section>
+      <div class='background-grid'>
+        <section class='home-section' aria-labelledby='education-title'>
+          <div class='section-heading'>
+            <div><p class='eyebrow'>LEARNING</p><h2 id='education-title'>教育经历</h2></div>
+          </div>
+          <ol class='education-list'>
+            {
+              profile.education.map((item) => (
+                <li>
+                  <p class='education-period'>{item.period}</p>
+                  <h3>
+                    {item.school}
+                    <span>{item.degree}</span>
+                  </h3>
+                  <p>{item.major}</p>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+        <section class='home-section' aria-labelledby='skills-title'>
+          <div class='section-heading'>
+            <div><p class='eyebrow'>TOOLKIT</p><h2 id='skills-title'>技术栈</h2></div>
+          </div>
+          <div class='skill-groups'>
+            {
+              profile.skills.map((group) => (
+                <div>
+                  <h3>{group.title}</h3>
+                  <ul class='skill-list'>
+                    {group.items.map((skill) => (
+                      <li>{skill}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+      </div>
+      <div class='closing-note'>
+        <span>保持好奇，持续构建。</span>
+        <a class='text-link' href='/rss.xml'><Icon name='rss' class='size-4' />订阅 RSS</a>
+      </div>
     </div>
-    <Quote class='mt-12' />
   </main>
 </PageLayout>
+
+<style>
+  .home {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .intro {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    align-items: center;
+    gap: 56px;
+    padding: 42px 0 64px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    font-weight: 500;
+    color: hsl(var(--muted-foreground));
+  }
+  h1 {
+    margin-top: 24px;
+    font-size: clamp(32px, 4.1vw, 46px);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.4;
+  }
+  h1 span {
+    color: hsl(var(--primary));
+  }
+  .intro-lead {
+    margin-top: 16px;
+    font-size: 20px;
+    letter-spacing: 0.015em;
+  }
+  .intro-description {
+    margin-top: 18px;
+    font-size: 14px;
+    line-height: 2;
+    color: hsl(var(--muted-foreground));
+  }
+  .intro-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 26px;
+    margin-top: 30px;
+  }
+  .primary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 26px;
+    border-radius: 8px;
+    padding: 11px 19px;
+    color: hsl(var(--background));
+    background: hsl(var(--foreground));
+    font-size: 14px;
+  }
+  .primary-link:hover {
+    background: hsl(var(--primary));
+    color: hsl(var(--background));
+  }
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+  }
+  .profile-note {
+    padding: 24px;
+    border: 1px solid hsl(var(--border));
+    border-radius: 16px;
+    background: hsl(var(--primary) / 0.035);
+    transform: rotate(2deg);
+  }
+  .note-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .note-top :global(.profile-avatar) {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 1px solid hsl(var(--border));
+  }
+  .note-label {
+    font-size: 9px;
+    line-height: 1.6;
+    letter-spacing: 0.12em;
+    color: hsl(var(--muted-foreground));
+  }
+  .note-name {
+    margin-top: 27px;
+    font-size: 19px;
+    font-weight: 500;
+  }
+  .note-name span {
+    color: hsl(var(--muted-foreground));
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .note-location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 7px;
+    color: hsl(var(--muted-foreground));
+    font-size: 12px;
+  }
+  .note-status {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-top: 1px dashed hsl(var(--border));
+    padding-top: 18px;
+    margin-top: 23px;
+    font-size: 12px;
+  }
+  .note-status > span {
+    width: 6px;
+    height: 6px;
+    background: hsl(var(--primary));
+    border-radius: 50%;
+  }
+  .note-direction {
+    margin-top: 7px;
+    font-size: 11px;
+    color: hsl(var(--muted-foreground));
+  }
+  .profile-note > a {
+    margin-top: 20px;
+  }
+  .home-content {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .section-heading h2 {
+    margin-top: 7px;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .section-heading > a {
+    color: hsl(var(--muted-foreground));
+    padding-bottom: 3px;
+  }
+  .post-list {
+    border-top: 1px solid hsl(var(--border));
+  }
+  .post-link {
+    display: grid;
+    grid-template-columns: 118px 1fr 20px;
+    align-items: start;
+    gap: 20px;
+    padding: 25px 0;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  .post-link :global(.post-date) {
+    color: hsl(var(--muted-foreground));
+    font-size: 12px;
+    padding-top: 4px;
+  }
+  .post-copy h3 {
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .post-copy p {
+    font-size: 13px;
+    color: hsl(var(--muted-foreground));
+    margin-top: 8px;
+    line-height: 1.8;
+  }
+  .post-arrow {
+    font-size: 20px;
+    transition: transform 0.2s;
+  }
+  .post-link:hover .post-arrow {
+    transform: translate(2px, -2px);
+  }
+  .website-card {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    overflow: hidden;
+    border: 1px solid hsl(var(--border));
+    border-radius: 12px;
+    background: hsl(var(--primary) / 0.035);
+  }
+  .website-image {
+    overflow: hidden;
+  }
+  .website-image :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s;
+  }
+  .website-card:hover :global(img) {
+    transform: scale(1.025);
+  }
+  .website-copy {
+    align-self: center;
+    padding: 32px;
+  }
+  .project-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: hsl(var(--muted-foreground));
+  }
+  .website-copy h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 500;
+    margin-top: 12px;
+  }
+  .website-copy h3 span {
+    font-size: 22px;
+  }
+  .website-copy p {
+    color: hsl(var(--muted-foreground));
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  .website-domain {
+    display: block;
+    font-size: 11px;
+    color: hsl(var(--muted-foreground));
+    margin-top: 30px;
+  }
+  .background-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 64px;
+  }
+  .education-list {
+    border-left: 1px solid hsl(var(--border));
+    margin-left: 4px;
+    padding-left: 22px;
+  }
+  .education-list li {
+    position: relative;
+    padding-bottom: 26px;
+  }
+  .education-list li:last-child {
+    padding-bottom: 0;
+  }
+  .education-list li::before {
+    position: absolute;
+    content: '';
+    width: 7px;
+    height: 7px;
+    top: 5px;
+    left: -26px;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    box-shadow: 0 0 0 4px hsl(var(--background));
+  }
+  .education-period {
+    font-size: 11px;
+    letter-spacing: 0.025em;
+    color: hsl(var(--muted-foreground));
+  }
+  .education-list h3 {
+    font-size: 16px;
+    margin-top: 8px;
+  }
+  .education-list h3 span {
+    font-size: 11px;
+    margin-left: 12px;
+    padding: 2px 7px;
+    border: 1px solid hsl(var(--border));
+    border-radius: 4px;
+  }
+  .education-list h3 + p {
+    font-size: 13px;
+    color: hsl(var(--muted-foreground));
+    margin-top: 6px;
+  }
+  .skill-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+  }
+  .skill-groups h3 {
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: hsl(var(--muted-foreground));
+  }
+  .skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .skill-list li {
+    padding: 4px 9px;
+    border: 1px solid hsl(var(--border));
+    border-radius: 5px;
+    font-size: 11px;
+  }
+  .closing-note {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid hsl(var(--border));
+    padding-top: 25px;
+    color: hsl(var(--muted-foreground));
+    font-size: 13px;
+  }
+  .empty-state {
+    color: hsl(var(--muted-foreground));
+    font-size: 14px;
+  }
+  @media (max-width: 800px) {
+    .intro {
+      gap: 28px;
+      grid-template-columns: 1fr 230px;
+    }
+    .intro-lead {
+      font-size: 18px;
+    }
+    .desktop-break {
+      display: none;
+    }
+    .background-grid {
+      gap: 36px;
+    }
+  }
+  @media (max-width: 640px) {
+    .intro {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 18px 0 42px;
+    }
+    .profile-note {
+      transform: none;
+      padding: 20px;
+    }
+    .note-top {
+      float: right;
+      gap: 18px;
+    }
+    .note-name {
+      margin-top: 0;
+    }
+    .note-status {
+      margin-top: 20px;
+    }
+    .note-direction {
+      font-size: 12px;
+    }
+    .profile-note > a {
+      margin-top: 12px;
+    }
+    .home-content {
+      gap: 36px;
+    }
+    .post-link {
+      grid-template-columns: 1fr 20px;
+      gap: 10px;
+      padding: 20px 0;
+    }
+    .post-link :global(.post-date) {
+      grid-column: 1 / -1;
+    }
+    .post-copy h3 {
+      font-size: 16px;
+    }
+    .website-card {
+      grid-template-columns: 1fr;
+    }
+    .website-copy {
+      padding: 24px;
+    }
+    .website-copy h3 {
+      margin-top: 7px;
+      font-size: 24px;
+    }
+    .website-domain {
+      margin-top: 18px;
+    }
+    .background-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .website-image :global(img),
+    .post-arrow {
+      transition: none;
+    }
+  }
+</style>

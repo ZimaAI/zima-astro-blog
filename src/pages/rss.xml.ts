@@ -73,13 +73,17 @@ const GET = async (context: AstroGlobal) => {
         link: `/blog/${post.id}`,
         // `pubDate` intentionally stays on `publishDate` so aggregators do not re-flow an
         // edited post as new. `atom:updated` lets readers that support it detect the edit.
-        customData: `<h:img src="${typeof post.data.heroImage?.src === 'string' ? post.data.heroImage?.src : post.data.heroImage?.src.src}" />
-          <enclosure url="${typeof post.data.heroImage?.src === 'string' ? post.data.heroImage?.src : post.data.heroImage?.src.src}" />${
-            post.data.updatedDate
-              ? `
+        customData: `${
+          post.data.heroImage
+            ? `<h:img src="${typeof post.data.heroImage.src === 'string' ? post.data.heroImage.src : post.data.heroImage.src.src}" />
+          <enclosure url="${typeof post.data.heroImage.src === 'string' ? post.data.heroImage.src : post.data.heroImage.src.src}" />`
+            : ''
+        }${
+          post.data.updatedDate
+            ? `
           <atom:updated>${post.data.updatedDate.toISOString()}</atom:updated>`
-              : ''
-          }`,
+            : ''
+        }`,
         content: await renderContent(post, siteUrl),
         ...post.data
       }))

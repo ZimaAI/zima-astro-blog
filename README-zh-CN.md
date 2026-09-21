@@ -1,151 +1,67 @@
-# Astro Theme Pure
+# Zima's Blog
 
 [English](./README.md) | 简体中文
 
-一个由 Astro 构建的，轻便简洁、快速强大的博客 & 文档主题。
+奇码的个人博客，记录 AI 应用开发、Java 后端与软件工程的学习和实践。基于 Astro 和 [Astro Theme Pure](https://github.com/cworld1/astro-theme-pure) 构建。
 
-[![GitHub deployments](https://img.shields.io/github/deployments/cworld1/astro-theme-pure/production?style=flat&logo=vercel&label=vercel)](https://astro-pure.js.org/)
-[![NPM Version](https://img.shields.io/npm/v/astro-pure?logo=npm&style=flat)](https://www.npmjs.com/package/astro-pure)
-[![GitHub Release](https://img.shields.io/github/v/release/cworld1/astro-theme-pure?include_prereleases&style=flat&label=template)](https://github.com/cworld1/astro-theme-pure/releases)
-[![GitHub License](https://img.shields.io/github/license/cworld1/astro-theme-pure?style=flat)](https://github.com/cworld1/astro-theme-pure/blob/main/LICENSE)
+站点包含个人首页、文章、归档、项目、关于页面，以及搜索和 RSS。个人资料来源为 [docs/aboutme/aboutme.md](./docs/aboutme/aboutme.md)，共享信息集中在 [src/data/profile.ts](./src/data/profile.ts)。
 
-![image](./.github/assets/header.webp)
-![image](./.github/assets/body.webp)
+## 本地运行
 
-> [!NOTE]
-> 已知问题：Head 标签和自定义选项仍在开发中（已暴露模板用于修改）
+使用 Node.js 22.12 或以上的受支持偶数版本。安装依赖时沿用仓库已有的 Bun 锁文件。
 
-## 简介
-
-查看 [预览 →](https://astro-pure.js.org/)
-
-### :fire: 特性
-
-- [x] :rocket: 快速高性能
-- [x] :star: 简单干净的设计
-- [x] :iphone: 响应式设计
-- [x] :mag: 使用 [pagefind](https://pagefind.app/) 构建的全站搜索
-- [x] :world_map: 站点地图和 RSS 订阅
-- [x] :spider_web: 友好的 SEO
-- [x] :book: 目录（table of contents）
-- [x] :framed_picture: 动态为文章生成可供三方媒体预览的分享图像
-- [x] :framed_picture: Mediumzoom 图像灯箱
-
-### :package: 组件
-
-主题包含了许多组件，不仅可以在主题中使用，还可以在其他 Astro 项目中使用。
-
-> 其他 Astro 项目使用需要 UnoCSS。更多详情请查阅 [Package README](https://github.com/cworld1/astro-theme-pure/blob/main/packages/pure/README.md#use-with-common-astro-project)。
-
-- 基础组件：`Aside`、`Tabs`、`Timeline`、`Steps`、`Spoiler`...
-- 高级组件：`GithubCard`、`LinkPreview`、`Quote`、`QRCode`...
-
-## :white_check_mark: Lighthouse 分数
-
-[![lighthouse-score](./.github/assets/lighthouse-score.png)](https://pagespeed.web.dev/analysis/https-cworld-top/o229zrt5o4?form_factor=mobile&hl=en)
-
-## 文档
-
-[文档](https://astro-pure.js.org/docs) | [展示台](https://github.com/cworld1/astro-theme-pure/issues/10)
-
-## NPM 包
-
-在 NPM 上查看：[astro-theme-pure](https://www.npmjs.com/package/astro-pure)
-
-## 快速开始
-
-### 环境要求
-
-> [!WARNING]
-> Astro 6.0+ 要求 Node.js v22.12.0 或更高版本。Astro 不支持奇数版本的 Node.js，例如 v23。
-
-你可以选择以下任一方式进行项目开发：
-
-- [Bun](https://bun.com/get)
-- [Node.js](https://nodejs.org/zh-cn)
-
-对于使用容器化部署如 [Docker](https://docs.docker.com/get-started/get-docker) & [Docker Compose](https://docs.docker.com/compose/install)，请参考文档 [Docker Compose](https://astro-pure.js.org/docs/setup/using-docker-compose)。
-
-### 获取代码与配置
-
-1. 克隆仓库并进入目录：
-   ```shell
-   git clone https://github.com/cworld1/astro-theme-pure.git
-   cd astro-theme-pure
-   ```
-
-   编辑 `src/site.config.ts` 以个性化站点。
-
-2. 安装依赖：
-   ```shell
-   # 安装项目依赖
-   bun install
-   ```
-
-3. 启动开发服务器：
-   ```shell
-   bun dev
-   # 或
-   pnpm dev
-   # 或
-   yarn run dev
-   # 或
-   npm run dev
-   ```
-   
-   开发服务器默认运行在 <http://localhost:4321>。
-
-### 创建新的博客文章
-
-完成任一开发环境的设置后，您可以创建一篇新的博客文章：
-
-```shell
-bun pure new
+```sh
+bun install --frozen-lockfile
+bun run dev
 ```
 
-## 部署
+没有全局 Bun 时：
 
-### 手动部署
-
-构建生产站点到 `./dist` 目录：
-
-```shell
-bun run build
+```sh
+npx --yes bun@1.3.11 install --frozen-lockfile
+npm run dev
 ```
 
-构建完成后，生成的静态文件将位于 `./dist` 目录中，你可以将该目录部署到支持静态网站托管的平台。
+打开 [localhost:4321](http://localhost:4321)。检查和构建命令：
 
-本地预览构建结果：
-
-```shell
-bun preview
+```sh
+npm run check
+npm run build
 ```
 
-### 静态托管平台
+## 修改资料与写文章
 
-你可以将你的博客部署到任意静态网站托管平台。
+| 内容                                      | 位置                                                               |
+| ----------------------------------------- | ------------------------------------------------------------------ |
+| 姓名、教育经历、技术栈、GitHub 和项目链接 | `src/data/profile.ts`                                              |
+| 站点元信息、导航与集成配置                | `src/site.config.ts`                                               |
+| 首页、关于和项目页面                      | `src/pages/index.astro`、`src/pages/about/`、`src/pages/projects/` |
+| 博客文章                                  | `src/content/blog/`                                                |
+| 保留供开发参考、不发布到站点的主题示例    | `docs/theme-examples/`                                             |
+| 图标和社交分享图原稿                      | `public/favicon/`、`public/images/social-card.svg`                 |
 
-- 参考官方 [Astro 部署指南](https://docs.astro.build/zh-cn/guides/deploy/) 了解具体的部署方式。
-- 根据所选择的部署平台，你可能需要修改项目中的 `astro.config.ts` 配置文件。
+在 `src/content/blog/` 中创建 `.md` 或 `.mdx` 文件，填写以下文章信息：
 
-| Vercel | Netlify |
-| :---: | :---: |
-| [![使用 Vercel 部署](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcworld1%2Fastro-theme-pure) | [![部署到 Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/cworld1/astro-theme-pure) |
+```markdown
+---
+title: '我的第一篇文章'
+description: '这篇文章的简短介绍'
+publishDate: 2026-09-21
+tags: ['Astro', '学习记录']
+draft: false
+---
 
-## 贡献
+这里是正文。
+```
 
-为了花更多时间编写代码，减少在空白上纠结的时间，本项目使用代码约定和样式来鼓励一致性。风格一致的代码更容易（且更不容易出错）进行审查、维护和理解。
+## 部署配置
 
-## 鸣谢
+本地可将 `.env.example` 复制为 `.env`，部署时在托管平台设置 `SITE_URL` 为博客的真实访问地址。规范链接、RSS、站点地图和社交分享元信息都使用该值；未配置时默认使用 `http://localhost:4321`。
 
-- [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus)
-- [Astro Resume](https://github.com/srleom/astro-theme-resume)
-- [Starlight](https://github.com/withastro/starlight)
+当前项目使用 Vercel adapter 和 `output: 'server'`，构建结果不能直接作为通用静态站点上传。选择其他平台时，先调整对应的 adapter 和输出模式。Waline 评论已关闭，配置自己的评论服务后再开启。
 
-其他第三方参考资料在 [Docs#Contributions](https://astro-pure.js.org/docs/advanced/about) 上。感谢所有开源库。
+VS Code 启动方式、现有 Git 工作流和主题更新方法见 [DEVELOPMENT.md](./DEVELOPMENT.md)。
 
-## 许可证
+## 来源与许可
 
-本项目基于 Apache 2.0 许可证。
-
-[![Star History Chart](https://star-history.dera.page/svg?repos=cworld1/astro-theme-pure&type=Date)](https://star-history.dera.page/#cworld1/astro-theme-pure&Date)
+基于 [Astro Theme Pure](https://github.com/cworld1/astro-theme-pure) 改造，保留原主题署名和 [Apache-2.0 许可证](./LICENSE)。
