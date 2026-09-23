@@ -20,7 +20,7 @@ Astro 输出静态文件，由本机已有 Nginx 按域名提供服务。GitHub 
 
 域名 A 记录应指向本机公网 IP（检查时为 `36.151.151.229`）；如果配置了 AAAA，必须指向同一台可通过 IPv6 访问的服务器。公网需要能访问 80/443 和 SSH 22。本机已经安装 Nginx、Certbot、rsync，并有可复用的 ACME 账号。
 
-本次配置已在 `/home/zima/.ssh/` 生成独立密钥 `aboutme-actions`、公钥 `aboutme-actions.pub` 和从本机 SSH 公钥生成的 `aboutme-known-hosts`。它们不在 Git 仓库内，不要提交私钥。
+本次配置已在 `/home/zima/.ssh/` 生成独立密钥 `aboutme-actions`、公钥 `aboutme-actions.pub` 和从本机 SSH 公钥生成的 `aboutme-known-hosts`。私钥不在 Git 仓库内；服务器主机公钥已记录在 `deploy/known_hosts`，供 Actions 严格校验。
 
 ```bash
 cd /home/zima/Develop/Projects/zima-astro-blog
@@ -35,18 +35,17 @@ sudo bash deploy/setup-server.sh /home/zima/.ssh/aboutme-actions.pub
 
 Nginx 平滑重载需要短暂切换工作进程，初始化脚本会重试 HTTPS 验证并核对版本号，全程校验证书。如果旧版脚本在最后一步出现 `curl: (60)`，先执行 `curl -fsS https://aboutme.zimagent.top/deploy-version.txt`；若正常返回版本号，说明站点已经就绪，无需重新申请证书。Certbot 输出的 `Hook 'deploy-hook' ran with error output` 若仅包含 Nginx 的 `syntax is ok` 和 `test is successful`，只是成功检查信息写入了标准错误流；新版 hook 使用 `nginx -t -q` 避免这类提示。
 
-新机器上需要自行生成密钥：`ssh-keygen -t ed25519 -N '' -f ~/.ssh/aboutme-actions`，并根据该服务器真实 SSH 主机公钥重新制作 known_hosts，不能直接信任网络扫描得到的陌生公钥。
+新机器上需要自行生成密钥：`ssh-keygen -t ed25519 -N '' -f ~/.ssh/aboutme-actions`，并根据该服务器真实 SSH 主机公钥更新 `deploy/known_hosts`，不能直接信任网络扫描得到的陌生公钥。
 
 ## GitHub Secrets（手动一次）
 
-打开 [仓库 Actions Secrets 设置](https://github.com/ZimaAI/zima-astro-blog/settings/secrets/actions)，添加以下两个 **Repository secrets**：
+打开 [仓库 Actions Secrets 设置](https://github.com/ZimaAI/zima-astro-blog/settings/secrets/actions)，添加以下 **Repository secret**：
 
-| 名称                 | 值                                                              |
-| -------------------- | --------------------------------------------------------------- |
-| `DEPLOY_SSH_KEY`     | `/home/zima/.ssh/aboutme-actions` 的完整内容，包含 BEGIN/END 行 |
-| `DEPLOY_KNOWN_HOSTS` | `/home/zima/.ssh/aboutme-known-hosts` 的完整内容                |
+| 名称             | 值                                                              |
+| ---------------- | --------------------------------------------------------------- |
+| `DEPLOY_SSH_KEY` | `/home/zima/.ssh/aboutme-actions` 的完整内容，包含 BEGIN/END 行 |
 
-在自己的终端读取并粘贴到 GitHub；不要把私钥发到聊天或写入仓库。workflow 固定连接 `aboutme.zimagent.top:22`，账号为 `aboutme-deploy`，严格验证主机公钥。
+在自己的终端读取并粘贴到 GitHub；不要把私钥发到聊天或写入仓库。workflow 固定连接 `aboutme.zimagent.top:22`，账号为 `aboutme-deploy`，严格验证仓库中记录的主机公钥。
 
 可先在本机验证专用账号：
 

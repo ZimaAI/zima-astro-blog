@@ -38,12 +38,11 @@ jobs:
       - name: Configure SSH
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
         run: |
-          test -n "$DEPLOY_SSH_KEY" && test -n "$DEPLOY_KNOWN_HOSTS"
+          test -n "$DEPLOY_SSH_KEY"
           install -d -m 700 ~/.ssh
           printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/aboutme_deploy
-          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          install -m 600 deploy/known_hosts ~/.ssh/known_hosts
           chmod 600 ~/.ssh/aboutme_deploy ~/.ssh/known_hosts
           cat > ~/.ssh/config <<'EOF'
           Host aboutme-production
@@ -65,7 +64,7 @@ jobs:
           if ! ssh_error=$(ssh aboutme-production 'test -w /var/www/zima-astro-blog' 2>&1); then
             case "$ssh_error" in
               *'Host key verification failed'*|*'REMOTE HOST IDENTIFICATION HAS CHANGED'*)
-                reason='Host key verification failed. Update DEPLOY_KNOWN_HOSTS from the server file.' ;;
+                reason='Host key verification failed. Check deploy/known_hosts against the server host key and verify DNS/port forwarding.' ;;
               *'Permission denied (publickey)'*)
                 reason='SSH public key authentication failed. Update DEPLOY_SSH_KEY from the matching private key file.' ;;
               '')
