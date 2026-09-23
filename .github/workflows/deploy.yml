@@ -62,8 +62,19 @@ jobs:
             echo '::error::GitHub runner cannot reach aboutme.zimagent.top:22. Check DNS, firewall and port forwarding.'
             exit 1
           fi
-          if ! ssh aboutme-production 'test -w /var/www/zima-astro-blog'; then
-            echo '::error::SSH reached the server but login or deployment directory access failed. Check the deploy key, known hosts and account permissions.'
+          if ! ssh_error=$(ssh aboutme-production 'test -w /var/www/zima-astro-blog' 2>&1); then
+            case "$ssh_error" in
+              *'Host key verification failed'*|*'REMOTE HOST IDENTIFICATION HAS CHANGED'*)
+                reason='Host key verification failed. Update DEPLOY_KNOWN_HOSTS from the server file.' ;;
+              *'Permission denied (publickey)'*)
+                reason='SSH public key authentication failed. Update DEPLOY_SSH_KEY from the matching private key file.' ;;
+              '')
+                reason='SSH login succeeded but the deployment directory is not writable by aboutme-deploy.' ;;
+              *)
+                reason='SSH connection failed after TCP handshake. Inspect the Check deployment connection step log.'
+                printf '%s\n' "$ssh_error" >&2 ;;
+            esac
+            echo "::error::$reason"
             exit 1
           fi
       - name: Upload and activate release
