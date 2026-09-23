@@ -1,4 +1,4 @@
-// Personal information shared by the homepage, about page and project page.
+// Personal information shared by the homepage and about page.
 // Source: docs/aboutme/aboutme.md
 export const profile = {
   name: '奇码',
@@ -21,6 +21,5 @@ export const profile = {
       title: '后端与数据',
       items: ['Spring Boot', 'FastAPI', 'MySQL', 'Redis', 'RocketMQ', 'PostgreSQL']
     }
-  ],
-  website: { name: '知更', url: 'https://zhigenews.zimagent.top/' }
+  ]
 }

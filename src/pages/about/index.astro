@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets'
 import { profile } from '@/data/profile'
+import { projects } from '@/data/projects'
 
 import PageLayout from '@/layouts/CommonPage.astro'
 import avatar from '@/assets/avatar.png'
@@ -40,7 +41,7 @@ const headings = [
   <p>
     欢迎来到 {profile.title}。这里是我的个人博客，用来记录技术学习、开发实践和项目思考。 你也可以在<a
       href='/projects'>项目页</a
-    >找到我的网站。
+    >找到我的项目。
   </p>
 
   <h2 id='education'>教育经历</h2>
@@ -86,9 +87,16 @@ const headings = [
   <p>
     GitHub：<a href={profile.github} target='_blank' rel='noopener noreferrer'>ZimaAI</a>
   </p>
-  <p>
-    我的个人网站：<a href={profile.website.url} target='_blank' rel='noopener noreferrer'>
-      {profile.website.name}
-    </a>
-  </p>
+  <p>我的项目：</p>
+  <ul>
+    {
+      projects.map((project) => (
+        <li>
+          <a href={project.url} target='_blank' rel='noopener noreferrer'>
+            {project.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
 </PageLayout>

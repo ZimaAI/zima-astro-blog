@@ -32,8 +32,20 @@ GitHub：https://github.com/ZimaAI
 
 
 
-我的网站列表：
+我的项目列表：
 
 知更：https://zhigenews.zimagent.top/
 
 ![知更](./assets/zhigenews.png)
+
+商脉：https://bizsentinel.zimagent.top/
+
+![商脉](./assets/commerce-lens.png)
+
+MyPI：https://mypi.zimagent.top
+
+![MyPI](./assets/mypi.png)
+
+PharmaScope：https://pharmascope.zimagent.top
+
+![PharmaScope](./assets/pharmascope.png)

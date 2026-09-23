@@ -1,51 +1,60 @@
 ---
 import { Image } from 'astro:assets'
 import { profile } from '@/data/profile'
+import { projects } from '@/data/projects'
 
 import PageLayout from '@/layouts/CommonPage.astro'
-import zhigenews from '@/assets/projects/zhigenews.png'
 
 const headings = [
-  { depth: 2, slug: 'zhigenews', text: '知更' },
+  ...projects.map((project) => ({ depth: 2, slug: project.slug, text: project.name })),
   { depth: 2, slug: 'github', text: 'GitHub' }
 ]
 ---
 
 <PageLayout title='我的项目' {headings}>
-  <p>这里收录我的个人网站，也欢迎通过 GitHub 了解我的代码与开发记录。</p>
+  <p>这里收录我的项目，也欢迎通过 GitHub 了解我的代码与开发记录。</p>
 
-  <h2 id='zhigenews'>{profile.website.name}</h2>
-  <div class='not-prose overflow-hidden rounded-xl border'>
-    <a
-      href={profile.website.url}
-      target='_blank'
-      rel='noopener noreferrer'
-      class='block overflow-hidden'
-      aria-label={`访问${profile.website.name}（在新标签页打开）`}
-    >
-      <Image
-        src={zhigenews}
-        alt='知更 · 个性化新闻简报'
-        class='h-auto w-full transition-transform duration-300 hover:scale-[1.02]'
-        widths={[640, 960, 1280]}
-        sizes='(max-width: 768px) 100vw, 768px'
-        loading='eager'
-      />
-    </a>
-    <div class='border-t p-5 sm:p-6'>
-      <p class='text-sm text-muted-foreground'>个人网站</p>
-      <p class='mt-2 text-xl font-medium'>{profile.website.name}</p>
-      <a
-        href={profile.website.url}
-        target='_blank'
-        rel='noopener noreferrer'
-        class='mt-5 inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm transition-colors hover:bg-muted'
-      >
-        访问知更 <span aria-hidden='true'>↗</span>
-      </a>
-      <p class='mt-3 break-all text-xs text-muted-foreground'>zhigenews.zimagent.top</p>
-    </div>
-  </div>
+  {
+    projects.map((project) => (
+      <section aria-labelledby={project.slug}>
+        <h2 id={project.slug}>{project.name}</h2>
+        <div class='not-prose overflow-hidden rounded-xl border'>
+          <a
+            href={project.url}
+            target='_blank'
+            rel='noopener noreferrer'
+            class='block overflow-hidden'
+            aria-label={`访问${project.name}（在新标签页打开）`}
+          >
+            <Image
+              src={project.image}
+              alt={`${project.name}项目展示图`}
+              class='h-auto w-full transition-transform duration-300 hover:scale-[1.02]'
+              widths={[640, 960, 1280]}
+              sizes='(max-width: 768px) 100vw, 768px'
+              loading='lazy'
+            />
+          </a>
+          <div class='border-t p-5 sm:p-6'>
+            <p class='text-sm text-muted-foreground'>项目网站</p>
+            <p class='mt-2 text-xl font-medium'>{project.name}</p>
+            <p class='mt-2 text-sm text-muted-foreground'>{project.description}</p>
+            <a
+              href={project.url}
+              target='_blank'
+              rel='noopener noreferrer'
+              class='mt-5 inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm transition-colors hover:bg-muted'
+            >
+              访问{project.name} <span aria-hidden='true'>↗</span>
+            </a>
+            <p class='mt-3 break-all text-xs text-muted-foreground'>
+              {new URL(project.url).hostname}
+            </p>
+          </div>
+        </div>
+      </section>
+    ))
+  }
 
   <h2 id='github'>GitHub</h2>
   <p>我的 GitHub 主页是 ZimaAI，代码仓库和公开动态都可以在这里找到。</p>
