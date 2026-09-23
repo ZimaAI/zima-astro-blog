@@ -95,7 +95,7 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
                     src={project.image}
                     alt={`${project.name}项目展示图`}
                     widths={[480, 800, 1200]}
-                    sizes='(max-width: 640px) 100vw, 460px'
+                    sizes='(max-width: 640px) 100vw, 384px'
                     loading='lazy'
                     style={
                       project.slug === 'pharmascope' ? { objectPosition: 'left center' } : undefined
@@ -354,12 +354,12 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
   }
   .website-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
   }
   .website-card {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
     overflow: hidden;
     border: 1px solid hsl(var(--border));
     border-radius: 12px;
@@ -381,7 +381,6 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
   }
   .website-copy {
     display: flex;
-    flex: 1;
     flex-direction: column;
     padding: 22px;
   }
@@ -551,7 +550,7 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
     .post-copy h3 {
       font-size: 16px;
     }
-    .website-grid {
+    .website-card {
       grid-template-columns: 1fr;
     }
     .website-copy {
