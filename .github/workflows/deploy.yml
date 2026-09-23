@@ -56,6 +56,16 @@ jobs:
             StrictHostKeyChecking yes
             ConnectTimeout 15
           EOF
+      - name: Check deployment connection
+        run: |
+          if ! timeout 15 bash -c 'exec 3<>/dev/tcp/aboutme.zimagent.top/22'; then
+            echo '::error::GitHub runner cannot reach aboutme.zimagent.top:22. Check DNS, firewall and port forwarding.'
+            exit 1
+          fi
+          if ! ssh aboutme-production 'test -w /var/www/zima-astro-blog'; then
+            echo '::error::SSH reached the server but login or deployment directory access failed. Check the deploy key, known hosts and account permissions.'
+            exit 1
+          fi
       - name: Upload and activate release
         env:
           RELEASE_ID: ${{ github.run_id }}-${{ github.run_attempt }}-${{ github.sha }}
