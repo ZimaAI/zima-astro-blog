@@ -58,7 +58,7 @@ Write your post here.
 
 Copy `.env.example` to `.env` for local configuration, or set `SITE_URL` in the deployment environment to the blog's real public URL. This controls canonical URLs, RSS, the sitemap and social sharing metadata. Without it, the site uses `http://localhost:4321`.
 
-The project currently uses the Vercel adapter with `output: 'server'`; its build output is not a generic static site bundle. Configure the appropriate adapter and output mode before choosing another host. Waline comments are disabled until a personal comment service is configured.
+The project uses `output: 'static'` and is served by the existing Nginx instance at **https://aboutme.zimagent.top**. After the one-time server and GitHub Secrets setup, pushes to `main` build and deploy through GitHub Actions. A dedicated user, release directory and virtual host isolate the blog from other projects; failed local health checks restore the previous release. See the [deployment guide](./deploy/README.md). Waline comments are disabled until a personal comment service is configured.
 
 See [DEVELOPMENT.md](./DEVELOPMENT.md) for VS Code setup, the existing Git workflow and theme updates.
 

@@ -58,7 +58,7 @@ draft: false
 
 本地可将 `.env.example` 复制为 `.env`，部署时在托管平台设置 `SITE_URL` 为博客的真实访问地址。规范链接、RSS、站点地图和社交分享元信息都使用该值；未配置时默认使用 `http://localhost:4321`。
 
-当前项目使用 Vercel adapter 和 `output: 'server'`，构建结果不能直接作为通用静态站点上传。选择其他平台时，先调整对应的 adapter 和输出模式。Waline 评论已关闭，配置自己的评论服务后再开启。
+项目使用 `output: 'static'`，由本机 Nginx 提供服务，公网地址为 **https://aboutme.zimagent.top**。完成一次性服务器初始化和 GitHub Secrets 设置后，推送 `main` 即通过 GitHub Actions 自动构建、上传和发布。独立目录、专用账号和域名虚拟主机避免与本机其他项目冲突；健康检查失败自动回退。详细步骤见 [本机部署说明](./deploy/README.md)。Waline 评论已关闭，配置自己的评论服务后再开启。
 
 VS Code 启动方式、现有 Git 工作流和主题更新方法见 [DEVELOPMENT.md](./DEVELOPMENT.md)。
 

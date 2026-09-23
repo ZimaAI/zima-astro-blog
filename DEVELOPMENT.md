@@ -117,7 +117,7 @@ git push origin main
 
 日常修改在 `main` 上完成，验证后直接提交并推送到 `origin/main`。
 
-当前 `astro.config.ts` 配置了 Vercel adapter 和 `output: 'server'`。推送到 GitHub 仅上传代码，并不会自动发布网站；当前构建结果也不能直接当作通用静态站点上传。接入 Vercel 时可选择 `main` 为生产分支；若选择 GitHub Pages、其他静态托管或自建 Node 服务，需要先调整相应的输出模式与 adapter，再验证构建和预览方式。
+当前 `astro.config.ts` 使用 `output: 'static'`。完成 [本机部署说明](./deploy/README.md) 中的一次性初始化和 GitHub Secrets 设置后，推送 `main` 会触发 `.github/workflows/deploy.yml`，在 GitHub 构建静态站点，通过专用 SSH 账号发布到本机独立目录，由已有 Nginx 提供 **https://aboutme.zimagent.top** 服务。
 
 ## 同步原主题更新
 
