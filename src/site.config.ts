@@ -52,7 +52,6 @@ export const theme: ThemeUserConfig = {
     menu: [
       { title: '文章', link: '/blog' },
       { title: '归档', link: '/archives' },
-      { title: '项目', link: '/projects' },
       { title: '关于', link: '/about' }
     ]
   },

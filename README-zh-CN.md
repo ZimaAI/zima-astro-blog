@@ -4,7 +4,7 @@
 
 奇码的个人博客，记录 AI 应用开发、Java 后端与软件工程的学习和实践。基于 Astro 和 [Astro Theme Pure](https://github.com/cworld1/astro-theme-pure) 构建。
 
-站点包含个人首页、文章、归档、项目、关于页面，以及搜索和 RSS。个人资料来源为 [docs/aboutme/aboutme.md](./docs/aboutme/aboutme.md)，共享信息集中在 [src/data/profile.ts](./src/data/profile.ts)。
+站点包含个人首页、文章、归档、关于页面，以及搜索和 RSS。个人资料来源为 [docs/aboutme/aboutme.md](./docs/aboutme/aboutme.md)，共享信息集中在 [src/data/profile.ts](./src/data/profile.ts)。
 
 ## 本地运行
 
@@ -31,14 +31,14 @@ npm run build
 
 ## 修改资料与写文章
 
-| 内容                                      | 位置                                                               |
-| ----------------------------------------- | ------------------------------------------------------------------ |
-| 姓名、教育经历、技术栈、GitHub 和项目链接 | `src/data/profile.ts`                                              |
-| 站点元信息、导航与集成配置                | `src/site.config.ts`                                               |
-| 首页、关于和项目页面                      | `src/pages/index.astro`、`src/pages/about/`、`src/pages/projects/` |
-| 博客文章                                  | `src/content/blog/`                                                |
-| 保留供开发参考、不发布到站点的主题示例    | `docs/theme-examples/`                                             |
-| 图标和社交分享图原稿                      | `public/favicon/`、`public/images/social-card.svg`                 |
+| 内容                                   | 位置                                               |
+| -------------------------------------- | -------------------------------------------------- |
+| 姓名、技术栈、开发方向和 GitHub        | `src/data/profile.ts`                              |
+| 站点元信息、导航与集成配置             | `src/site.config.ts`                               |
+| 首页和关于页面                         | `src/pages/index.astro`、`src/pages/about/`        |
+| 博客文章                               | `src/content/blog/`                                |
+| 保留供开发参考、不发布到站点的主题示例 | `docs/theme-examples/`                             |
+| 图标和社交分享图原稿                   | `public/favicon/`、`public/images/social-card.svg` |
 
 在 `src/content/blog/` 中创建 `.md` 或 `.mdx` 文件，填写以下文章信息：
 

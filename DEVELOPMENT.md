@@ -62,22 +62,22 @@ npm run build   # 主题环境检查、类型检查和生产构建
 
 ## 从哪些文件开始改
 
-| 需求                                          | 位置                                                        |
-| --------------------------------------------- | ----------------------------------------------------------- |
-| 个人资料、教育经历、技术栈、GitHub 和项目链接 | `src/data/profile.ts`                                       |
-| 站点描述、语言、菜单、评论等集成配置          | `src/site.config.ts`                                        |
-| 首页内容和结构                                | `src/pages/index.astro`、`src/components/home/`             |
-| 关于、项目页面                                | `src/pages/about/`、`src/pages/projects/`                   |
-| 公共布局、文章布局                            | `src/layouts/`                                              |
-| 页面组件、SEO 元信息                          | `src/components/`、`src/components/BaseHead.astro`          |
-| 全局样式                                      | `src/assets/styles/global.css`、`src/assets/styles/app.css` |
-| UnoCSS 配置                                   | `uno.config.ts`                                             |
-| 博客文章                                      | `src/content/blog/`                                         |
-| 原主题示例和文档（不发布）                    | `docs/theme-examples/`                                      |
-| 内容字段与校验规则                            | `src/content.config.ts`                                     |
-| 头像、图片、图标                              | `src/assets/`、`public/`                                    |
-| 博客域名                                      | `.env` 或部署环境中的 `SITE_URL`，参见 `.env.example`       |
-| 部署方式、Astro 集成                          | `astro.config.ts`                                           |
+| 需求                                 | 位置                                                        |
+| ------------------------------------ | ----------------------------------------------------------- |
+| 个人资料、技术栈、开发方向和 GitHub  | `src/data/profile.ts`                                       |
+| 站点描述、语言、菜单、评论等集成配置 | `src/site.config.ts`                                        |
+| 首页内容和结构                       | `src/pages/index.astro`、`src/components/home/`             |
+| 关于页面                             | `src/pages/about/`                                          |
+| 公共布局、文章布局                   | `src/layouts/`                                              |
+| 页面组件、SEO 元信息                 | `src/components/`、`src/components/BaseHead.astro`          |
+| 全局样式                             | `src/assets/styles/global.css`、`src/assets/styles/app.css` |
+| UnoCSS 配置                          | `uno.config.ts`                                             |
+| 博客文章                             | `src/content/blog/`                                         |
+| 原主题示例和文档（不发布）           | `docs/theme-examples/`                                      |
+| 内容字段与校验规则                   | `src/content.config.ts`                                     |
+| 头像、图片、图标                     | `src/assets/`、`public/`                                    |
+| 博客域名                             | `.env` 或部署环境中的 `SITE_URL`，参见 `.env.example`       |
+| 部署方式、Astro 集成                 | `astro.config.ts`                                           |
 
 站点已按 `docs/aboutme/aboutme.md` 改造成奇码的个人博客；后续修改共享资料时编辑 `src/data/profile.ts`。原主题的示例文章和文档已移至 `docs/theme-examples/`，不会发布为博客内容或 `/docs` 页面。
 

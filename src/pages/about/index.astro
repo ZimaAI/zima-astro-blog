@@ -1,13 +1,11 @@
 ---
 import { Image } from 'astro:assets'
 import { profile } from '@/data/profile'
-import { projects } from '@/data/projects'
 
 import PageLayout from '@/layouts/CommonPage.astro'
 import avatar from '@/assets/avatar.png'
 
 const headings = [
-  { depth: 2, slug: 'education', text: '教育经历' },
   { depth: 2, slug: 'skills', text: '技术栈' },
   { depth: 2, slug: 'directions', text: '求职方向' },
   { depth: 2, slug: 'find-me', text: '找到我' }
@@ -33,33 +31,13 @@ const headings = [
       >
     </p>
     <p class='mt-4 leading-relaxed text-muted-foreground'>
-      来自{profile.location}，在江苏大学学习{profile.major}。<br />
-      一名关注 AI 应用与 Java 后端开发的{profile.status}。
+      关注 AI 应用与 Java 后端开发，喜欢探索技术并记录学习过程。
     </p>
   </div>
 
   <p>
-    欢迎来到 {profile.title}。这里是我的个人博客，用来记录技术学习、开发实践和项目思考。 你也可以在<a
-      href='/projects'>项目页</a
-    >找到我的项目。
+    欢迎来到 {profile.title}。这里是我的个人博客，用来记录技术学习、开发实践和思考。
   </p>
-
-  <h2 id='education'>教育经历</h2>
-  <div class='not-prose space-y-4'>
-    {
-      profile.education.map((education) => (
-        <article class='rounded-xl border px-5 py-4'>
-          <div class='flex flex-wrap items-baseline justify-between gap-2'>
-            <h3 class='text-lg font-medium'>{education.school}</h3>
-            <span class='text-sm tabular-nums text-muted-foreground'>{education.period}</span>
-          </div>
-          <p class='mt-2 text-sm text-muted-foreground'>
-            {education.major} · {education.degree}
-          </p>
-        </article>
-      ))
-    }
-  </div>
 
   <h2 id='skills'>技术栈</h2>
   <div class='not-prose space-y-5'>
@@ -78,7 +56,7 @@ const headings = [
   </div>
 
   <h2 id='directions'>求职方向</h2>
-  <p>{profile.status}，求职方向为：</p>
+  <p>求职方向为：</p>
   <ul>
     {profile.directions.map((direction) => <li>{direction}</li>)}
   </ul>
@@ -87,16 +65,4 @@ const headings = [
   <p>
     GitHub：<a href={profile.github} target='_blank' rel='noopener noreferrer'>ZimaAI</a>
   </p>
-  <p>我的项目：</p>
-  <ul>
-    {
-      projects.map((project) => (
-        <li>
-          <a href={project.url} target='_blank' rel='noopener noreferrer'>
-            {project.name}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
 </PageLayout>

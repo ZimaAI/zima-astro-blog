@@ -4,7 +4,7 @@ English | [简体中文](./README-zh-CN.md)
 
 奇码's personal blog, covering AI application development, Java backend development and software engineering. Built with Astro and [Astro Theme Pure](https://github.com/cworld1/astro-theme-pure).
 
-The site includes a personal homepage, articles, archives, projects, an about page, search and RSS. Personal information comes from [docs/aboutme/aboutme.md](./docs/aboutme/aboutme.md); shared site data lives in [src/data/profile.ts](./src/data/profile.ts).
+The site includes a personal homepage, articles, archives, an about page, search and RSS. Personal information comes from [docs/aboutme/aboutme.md](./docs/aboutme/aboutme.md); shared site data lives in [src/data/profile.ts](./src/data/profile.ts).
 
 ## Local development
 
@@ -31,14 +31,14 @@ npm run build
 
 ## Customize and write
 
-| Content                                                 | Location                                                           |
-| ------------------------------------------------------- | ------------------------------------------------------------------ |
-| Name, education, skills, GitHub and project link        | `src/data/profile.ts`                                              |
-| Site metadata, navigation and integrations              | `src/site.config.ts`                                               |
-| Homepage, about page and projects                       | `src/pages/index.astro`, `src/pages/about/`, `src/pages/projects/` |
-| Blog posts                                              | `src/content/blog/`                                                |
-| Original theme examples, kept out of the published site | `docs/theme-examples/`                                             |
-| Icons and social sharing image                          | `public/favicon/`, `public/images/social-card.svg`                 |
+| Content                                                 | Location                                           |
+| ------------------------------------------------------- | -------------------------------------------------- |
+| Name, skills, development interests and GitHub          | `src/data/profile.ts`                              |
+| Site metadata, navigation and integrations              | `src/site.config.ts`                               |
+| Homepage and about page                                 | `src/pages/index.astro`, `src/pages/about/`        |
+| Blog posts                                              | `src/content/blog/`                                |
+| Original theme examples, kept out of the published site | `docs/theme-examples/`                             |
+| Icons and social sharing image                          | `public/favicon/`, `public/images/social-card.svg` |
 
 Create a `.md` or `.mdx` file in `src/content/blog/` with this frontmatter:
 

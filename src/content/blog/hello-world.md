@@ -9,7 +9,7 @@ language: 中文
 comment: false
 ---
 
-你好，我是奇码（Zima），来自浙江温州，目前在江苏大学攻读软件工程硕士，是一名 2027 届毕业生。
+你好，我是奇码（Zima），关注 AI 应用开发与 Java 后端开发。
 
 欢迎来到 **Zima's Blog**。我希望在这里整理学习笔记，也为自己的思考留下一些记录。
 
@@ -22,7 +22,6 @@ comment: false
 ## 在其他地方找到我
 
 - [GitHub · ZimaAI](https://github.com/ZimaAI)
-- [知更](https://zhigenews.zimagent.top/)：我的网站之一。
-- [关于我](/about)：教育经历、技术栈与更多个人信息。
+- [关于我](/about)：技术栈与开发方向。
 
 这是博客的第一篇文章。就从这声问好开始。

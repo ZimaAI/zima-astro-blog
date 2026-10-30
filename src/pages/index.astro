@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets'
 import { profile } from '@/data/profile'
-import { projects } from '@/data/projects'
 
 import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
 import { FormattedDate, Icon } from 'astro-pure/user'
@@ -19,7 +18,7 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
         <h1 id='intro-title'>你好，我是<span>{profile.name}</span>。</h1>
         <p class='intro-lead'>在代码中探索，在记录中成长。</p>
         <p class='intro-description'>
-          江苏大学软件工程硕士在读，关注 AI 应用与 Java 后端开发。
+          关注 AI 应用与 Java 后端开发。
           <br class='desktop-break' />这里记录我的技术学习、项目实践与思考。
         </p>
         <div class='intro-links'>
@@ -44,8 +43,6 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
           <span class='note-label'>DEVELOPER<br />& LEARNER</span>
         </div>
         <p class='note-name'>{profile.handle}<span> / {profile.name}</span></p>
-        <p class='note-location'><Icon name='location' class='size-4' />{profile.location}</p>
-        <div class='note-status'><span aria-hidden='true'></span>{profile.status}</div>
         <p class='note-direction'>{profile.directions.join(' · ')}</p>
         <a class='text-link' href='/about'>更多关于我 <span aria-hidden='true'>↗</span></a>
       </aside>
@@ -81,82 +78,25 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
         }
       </section>
 
-      <section class='home-section' aria-labelledby='projects-title'>
+      <section class='home-section' aria-labelledby='skills-title'>
         <div class='section-heading'>
-          <div><p class='eyebrow'>BUILDING</p><h2 id='projects-title'>我的项目</h2></div>
-          <a class='text-link' href='/projects'>查看项目 <span aria-hidden='true'>↗</span></a>
+          <div><p class='eyebrow'>TOOLKIT</p><h2 id='skills-title'>技术栈</h2></div>
         </div>
-        <div class='website-grid'>
+        <div class='skill-groups'>
           {
-            projects.map((project) => (
-              <a class='website-card' href={project.url} target='_blank' rel='noopener noreferrer'>
-                <div class='website-image'>
-                  <Image
-                    src={project.image}
-                    alt={`${project.name}项目展示图`}
-                    widths={[480, 800, 1200]}
-                    sizes='(max-width: 640px) 100vw, 384px'
-                    loading='lazy'
-                    style={
-                      project.slug === 'pharmascope' ? { objectPosition: 'left center' } : undefined
-                    }
-                  />
-                </div>
-                <div class='website-copy'>
-                  <span class='project-label'>{project.label}</span>
-                  <h3>
-                    {project.name}
-                    <span aria-hidden='true'>↗</span>
-                  </h3>
-                  <p>{project.description}</p>
-                  <span class='website-domain'>{new URL(project.url).hostname}</span>
-                </div>
-              </a>
+            profile.skills.map((group) => (
+              <div>
+                <h3>{group.title}</h3>
+                <ul class='skill-list'>
+                  {group.items.map((skill) => (
+                    <li>{skill}</li>
+                  ))}
+                </ul>
+              </div>
             ))
           }
         </div>
       </section>
-
-      <div class='background-grid'>
-        <section class='home-section' aria-labelledby='education-title'>
-          <div class='section-heading'>
-            <div><p class='eyebrow'>LEARNING</p><h2 id='education-title'>教育经历</h2></div>
-          </div>
-          <ol class='education-list'>
-            {
-              profile.education.map((item) => (
-                <li>
-                  <p class='education-period'>{item.period}</p>
-                  <h3>
-                    {item.school}
-                    <span>{item.degree}</span>
-                  </h3>
-                  <p>{item.major}</p>
-                </li>
-              ))
-            }
-          </ol>
-        </section>
-        <section class='home-section' aria-labelledby='skills-title'>
-          <div class='section-heading'>
-            <div><p class='eyebrow'>TOOLKIT</p><h2 id='skills-title'>技术栈</h2></div>
-          </div>
-          <div class='skill-groups'>
-            {
-              profile.skills.map((group) => (
-                <div>
-                  <h3>{group.title}</h3>
-                  <ul class='skill-list'>
-                    {group.items.map((skill) => (
-                      <li>{skill}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))
-            }
-          </div>
-        </section>
-      </div>
       <div class='closing-note'>
         <span>保持好奇，持续构建。</span>
         <a class='text-link' href='/rss.xml'><Icon name='rss' class='size-4' />订阅 RSS</a>
@@ -266,31 +206,8 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
     font-size: 12px;
     font-weight: 400;
   }
-  .note-location {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 7px;
-    color: hsl(var(--muted-foreground));
-    font-size: 12px;
-  }
-  .note-status {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    border-top: 1px dashed hsl(var(--border));
-    padding-top: 18px;
-    margin-top: 23px;
-    font-size: 12px;
-  }
-  .note-status > span {
-    width: 6px;
-    height: 6px;
-    background: hsl(var(--primary));
-    border-radius: 50%;
-  }
   .note-direction {
-    margin-top: 7px;
+    margin-top: 18px;
     font-size: 11px;
     color: hsl(var(--muted-foreground));
   }
@@ -352,119 +269,10 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
   .post-link:hover .post-arrow {
     transform: translate(2px, -2px);
   }
-  .website-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
-  }
-  .website-card {
-    display: grid;
-    grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
-    overflow: hidden;
-    border: 1px solid hsl(var(--border));
-    border-radius: 12px;
-    background: hsl(var(--primary) / 0.035);
-  }
-  .website-image {
-    overflow: hidden;
-    aspect-ratio: 16 / 9;
-  }
-  .website-image :global(img) {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.35s;
-  }
-  .website-card:hover :global(img) {
-    transform: scale(1.025);
-  }
-  .website-copy {
-    display: flex;
-    flex-direction: column;
-    padding: 22px;
-  }
-  .project-label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: hsl(var(--muted-foreground));
-  }
-  .website-copy h3 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 24px;
-    font-weight: 500;
-    margin-top: 12px;
-  }
-  .website-copy h3 span {
-    font-size: 22px;
-  }
-  .website-copy p {
-    color: hsl(var(--muted-foreground));
-    margin-top: 10px;
-    font-size: 14px;
-  }
-  .website-domain {
-    display: block;
-    font-size: 11px;
-    color: hsl(var(--muted-foreground));
-    margin-top: auto;
-    padding-top: 22px;
-  }
-  .background-grid {
-    display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: 64px;
-  }
-  .education-list {
-    border-left: 1px solid hsl(var(--border));
-    margin-left: 4px;
-    padding-left: 22px;
-  }
-  .education-list li {
-    position: relative;
-    padding-bottom: 26px;
-  }
-  .education-list li:last-child {
-    padding-bottom: 0;
-  }
-  .education-list li::before {
-    position: absolute;
-    content: '';
-    width: 7px;
-    height: 7px;
-    top: 5px;
-    left: -26px;
-    border-radius: 50%;
-    background: hsl(var(--primary));
-    box-shadow: 0 0 0 4px hsl(var(--background));
-  }
-  .education-period {
-    font-size: 11px;
-    letter-spacing: 0.025em;
-    color: hsl(var(--muted-foreground));
-  }
-  .education-list h3 {
-    font-size: 16px;
-    margin-top: 8px;
-  }
-  .education-list h3 span {
-    font-size: 11px;
-    margin-left: 12px;
-    padding: 2px 7px;
-    border: 1px solid hsl(var(--border));
-    border-radius: 4px;
-  }
-  .education-list h3 + p {
-    font-size: 13px;
-    color: hsl(var(--muted-foreground));
-    margin-top: 6px;
-  }
   .skill-groups {
-    display: flex;
-    flex-direction: column;
-    gap: 17px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
   }
   .skill-groups h3 {
     margin-bottom: 8px;
@@ -506,9 +314,6 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
     .desktop-break {
       display: none;
     }
-    .background-grid {
-      gap: 36px;
-    }
   }
   @media (max-width: 640px) {
     .intro {
@@ -527,9 +332,6 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
     .note-name {
       margin-top: 0;
     }
-    .note-status {
-      margin-top: 20px;
-    }
     .note-direction {
       font-size: 12px;
     }
@@ -538,6 +340,10 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
     }
     .home-content {
       gap: 36px;
+    }
+    .skill-groups {
+      grid-template-columns: 1fr;
+      gap: 17px;
     }
     .post-link {
       grid-template-columns: 1fr 20px;
@@ -550,25 +356,8 @@ const posts = sortMDByDate(await getBlogCollection()).slice(0, 3)
     .post-copy h3 {
       font-size: 16px;
     }
-    .website-card {
-      grid-template-columns: 1fr;
-    }
-    .website-copy {
-      padding: 24px;
-    }
-    .website-copy h3 {
-      margin-top: 7px;
-      font-size: 24px;
-    }
-    .website-domain {
-      margin-top: 18px;
-    }
-    .background-grid {
-      grid-template-columns: 1fr;
-    }
   }
   @media (prefers-reduced-motion: reduce) {
-    .website-image :global(img),
     .post-arrow {
       transition: none;
     }
