@@ -1,0 +1,3 @@
+interface:
+  display_name: "write-a-blog"
+  short_description: "将语音稿整理为本项目博客，完成内容校验、构建、提交与推送"
