@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 380" role="img" aria-labelledby="title desc">
+  <title id="title">中转站黑盒审计的可见边界</title>
+  <desc id="desc">检测器向中转站发送探针，中转站可能转发到上游模型。检测器只能观察返回的接口、文本、用量和流式事件，无法直接看到中转站与上游之间发生了什么。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M1 1L7 4.5L1 8" fill="none" stroke="#4772a6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      text { font-family: "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC", sans-serif; }
+      .label { fill: #14304b; font-size: 24px; font-weight: 700; }
+      .detail { fill: #465b70; font-size: 17px; }
+      .note { fill: #38516c; font-size: 18px; }
+    </style>
+  </defs>
+  <rect width="1080" height="380" rx="22" fill="#f5f8fc"/>
+  <text x="48" y="49" class="label">一次请求的可见边界</text>
+  <rect x="40" y="82" width="272" height="154" rx="17" fill="#e5f3fb" stroke="#80b6da" stroke-width="2"/>
+  <text x="65" y="126" class="label">检测器</text>
+  <text x="65" y="163" class="detail">发送随机化探针</text>
+  <text x="65" y="192" class="detail">记录请求与返回结果</text>
+  <rect x="404" y="82" width="272" height="154" rx="17" fill="#fff0dc" stroke="#e2ad65" stroke-width="2"/>
+  <text x="429" y="126" class="label">中转站</text>
+  <text x="429" y="163" class="detail">路由、改写或截断</text>
+  <text x="429" y="192" class="detail">都可能发生在这里</text>
+  <rect x="768" y="82" width="272" height="154" rx="17" fill="#eaeafb" stroke="#aaa5df" stroke-width="2"/>
+  <text x="793" y="126" class="label">上游模型</text>
+  <text x="793" y="163" class="detail">实际调用情况不可见</text>
+  <text x="793" y="192" class="detail">身份不能由自报证明</text>
+  <path d="M317 129H392" fill="none" stroke="#4772a6" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M681 129H756" fill="none" stroke="#4772a6" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+  <path d="M762 207H687" fill="none" stroke="#4772a6" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+  <path d="M398 207H323" fill="none" stroke="#4772a6" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="40" y="267" width="1000" height="77" rx="15" fill="#fff" stroke="#cbd8e5" stroke-width="2"/>
+  <text x="64" y="298" class="note">检测器能核对：</text>
+  <text x="64" y="326" class="detail">模型列表 / 回显文本 / token 用量 / canary 位置 / SSE 事件</text>
+  <text x="681" y="293" class="detail">虚线：检测器无法直接观察的链路</text>
+</svg>
